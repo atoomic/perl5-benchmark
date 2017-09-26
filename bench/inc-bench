@@ -1,0 +1,32 @@
+[
+ 'test_1' =>
+ {
+  desc => "require Foo",
+  setup => 'qx{echo "package Foo; 1; # $$" > lib/Foo.pm}; 1',
+  code => 'BEGIN { unshift @INC, "./lib" } eval q[ for (1..1000) { require Foo } ] '
+ },
+ 'test_2' =>
+ {
+  desc => "Foo_unless_INC",
+  setup => 'qx{echo "package Foo; 1; # $$" > lib/Foo.pm}; 1',
+  code => 'BEGIN { unshift @INC, "./lib" } eval q[ for (1..1000) { require Foo unless $INC{"Foo.pm"} } ] '
+ },
+'test_3' =>
+ {
+  desc => "require Some::Thing::Longer::To::Test",
+  setup => 'qx{mkdir -p lib/Some/Thing/Longer/To}; qx{echo "package Some::Thing::Longer::To::Test; 1; # $$" > lib/Some/Thing/Longer/To/Test.pm}; 1',
+  code => 'BEGIN { unshift @INC, "./lib" } eval q[ for (1..1000) { require Some::Thing::Longer::To::Test } ] '
+ },
+ 'test_4' =>
+ {
+  desc => "require Not_There",
+  setup => '1',
+  code => 'for (1..1_000) { eval q[require Not_There] }'
+ }, 
+ 'test_5' =>
+ {
+  desc => "require Not::There::Long::Name::To::Test",
+  setup => '1',
+  code => 'for (1..1_000) { eval q[require Not::There::Long::Name::To::Test] }'
+ }, 
+]

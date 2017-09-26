@@ -1,0 +1,20 @@
+[
+ 'package::simple' =>
+ {
+  desc => "simple one-word package name",
+  setup => 'sub foo {}',
+  code => "&{'foo'}"
+ },
+ 'package::quote' =>
+ {
+  desc => "multi-part package name using single quotes",
+  setup => "sub xx'yy'zz'aa'bb'cc'foo {}",
+  code => qq(&{"xx'yy'zz'aa'bb'cc'foo"})
+ },
+ 'package::colon' =>
+ {
+  desc => "multi-part package name using colons",
+  setup => "sub xx::yy::zz::aa::bb::cc::foo {}",
+  code => "&{'xx::yy::zz::aa::bb::cc::foo'}"
+ },
+]
